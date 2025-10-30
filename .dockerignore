@@ -1,0 +1,41 @@
+# Binaries
+bin/
+main
+main.exe
+
+# Dependencies
+vendor/
+
+# Test files
+*_test.go
+tests/
+
+# Documentation
+docs/
+README.md
+
+# Git
+.git/
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+tmp/
+temp/

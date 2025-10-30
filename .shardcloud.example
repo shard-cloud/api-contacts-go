@@ -1,0 +1,7 @@
+DISPLAY_NAME=Contacts API
+ENTRYPOINT=bin/main
+MEMORY=512
+VERSION=recommended
+SUBDOMAIN=contacts-api
+START=go mod tidy && go build -o bin/main ./cmd/server && make migrate && make seed && ./bin/main
+DESCRIPTION=API REST para gerenciamento de contatos com Fiber e PostgreSQL
