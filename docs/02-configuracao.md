@@ -1,5 +1,3 @@
-# Configuração
-
 ## 🔐 Variáveis de Ambiente
 
 ### Arquivo `.env`

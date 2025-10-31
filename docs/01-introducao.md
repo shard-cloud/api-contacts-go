@@ -1,5 +1,3 @@
-# Introdução
-
 ## 📖 O que é este template?
 
 API REST completa para gerenciamento de contatos construída com **Fiber**, **GORM** e **PostgreSQL**. Inclui CRUD completo, validação, migrations, busca e paginação.
