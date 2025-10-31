@@ -3,13 +3,12 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 
 	"api-contacts-go/internal/models"
 
 	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/postgres"
+	postgresdriver "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -50,7 +49,7 @@ func RunMigrations(databaseURL string) error {
 	defer db.Close()
 
 	// Create migrate instance
-	driver, err := postgres.WithInstance(db, &postgres.Config{})
+	driver, err := postgresdriver.WithInstance(db, &postgresdriver.Config{})
 	if err != nil {
 		return fmt.Errorf("failed to create postgres driver: %w", err)
 	}
