@@ -155,8 +155,14 @@ type Contact struct {
 A aplicação lê a string de conexão da variável `DATABASE`:
 
 ```env
+# Local (sem SSL)
 DATABASE=postgres://user:password@localhost:5432/contacts_db
+
+# Produção (com SSL)
+DATABASE=postgres://user:password@postgres.example.com:5432/db?sslmode=require
 ```
+
+**Nota sobre SSL:** O código automaticamente converte `ssl=true` para `sslmode=require` (formato correto do PostgreSQL). Para bancos remotos sem `sslmode` especificado, `sslmode=require` é adicionado automaticamente.
 
 ## 🐳 Docker
 

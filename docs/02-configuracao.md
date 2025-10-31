@@ -28,18 +28,27 @@ DATABASE=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
 Exemplos:
 
 ```env
-# Local
+# Local (sem SSL)
 DATABASE=postgresql://contactuser:contactpass@localhost:5432/contacts_db
 
-# Docker Compose
+# Docker Compose (sem SSL)
 DATABASE=postgresql://contactuser:contactpass@db:5432/contacts_db
 
-# Supabase
-DATABASE=postgresql://user:pass@db.xxx.supabase.co:5432/postgres
+# Produção com SSL (formato correto)
+DATABASE=postgresql://user:pass@postgres.example.com:5432/db?sslmode=require
 
-# Railway
-DATABASE=postgresql://user:pass@containers-us-west-1.railway.app:5432/railway
+# Supabase (com SSL)
+DATABASE=postgresql://user:pass@db.xxx.supabase.co:5432/postgres?sslmode=require
+
+# Railway (com SSL)
+DATABASE=postgresql://user:pass@containers-us-west-1.railway.app:5432/railway?sslmode=require
 ```
+
+**⚠️ Importante sobre SSL:**
+- Use `sslmode=require` para conexões SSL (PostgreSQL padrão)
+- O código converte automaticamente `ssl=true` → `sslmode=require`
+- Bancos remotos sem `sslmode` recebem `sslmode=require` automaticamente
+- Conexões locais (localhost/127.0.0.1) não usam SSL por padrão
 
 #### `PORT` (opcional, padrão: 80)
 

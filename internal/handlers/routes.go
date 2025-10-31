@@ -5,11 +5,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func SetupRoutes(app *fiber.App, db *gorm.DB) {
+func SetupRoutes(router fiber.Router, db *gorm.DB) {
 	contactHandler := NewContactHandler(db)
 
 	// Contact routes
-	contacts := app.Group("/contacts")
+	contacts := router.Group("/contacts")
 	contacts.Get("/", contactHandler.GetContacts)
 	contacts.Get("/search", contactHandler.SearchContacts)
 	contacts.Get("/:id", contactHandler.GetContact)
