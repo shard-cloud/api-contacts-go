@@ -19,11 +19,11 @@ Crie um arquivo `.shardcloud` na raiz do projeto:
 
 ```bash
 DISPLAY_NAME=Contacts API
-ENTRYPOINT=bin/main
+MAIN=bin/main
 MEMORY=512
 VERSION=recommended
 SUBDOMAIN=contacts-api
-START=go mod tidy && go build -o bin/main ./cmd/server && make migrate && make seed && ./bin/main
+CUSTOM_COMMAND=go mod tidy && go build -o bin/main ./cmd/server && make migrate && make seed && ./bin/main
 DESCRIPTION=API REST para gerenciamento de contatos com Fiber e PostgreSQL
 ```
 
@@ -79,14 +79,17 @@ curl http://localhost/api/v1/contacts
 ### Método 1: Upload direto (Recomendado)
 
 1. **Acesse o Dashboard**
+
    - Vá para [Shard Cloud Dashboard](https://shardcloud.app/dash)
    - Faça login na sua conta
 
 2. **Criar nova aplicação**
+
    - Clique em **"New app"**
    - Selecione **"Upload"**
 
 3. **Preparar arquivos**
+
    - Zip toda a pasta do projeto (incluindo `.shardcloud`)
    - Certifique-se de que o `go.mod` está incluído
 
@@ -98,11 +101,13 @@ curl http://localhost/api/v1/contacts
 ### Método 2: Deploy via Git
 
 1. **Conectar repositório**
+
    - No dashboard, clique em **"New app"**
    - Selecione **"Git Repository"**
    - Conecte seu repositório GitHub/GitLab
 
 2. **Configurar build**
+
    - **Build command:** `go mod tidy && go build -o bin/main ./cmd/server`
    - **Start command:** `./bin/main`
    - **Go version:** `1.23` (recomendado)
@@ -116,12 +121,14 @@ curl http://localhost/api/v1/contacts
 ### Usar PostgreSQL da Shard Cloud
 
 1. **Criar banco**
+
    - Vá para [Databases Dashboard](https://shardcloud.app/dash/databases)
    - Clique em **"New Database"**
    - Selecione **PostgreSQL**
    - Escolha a quantidade de RAM
 
 2. **Configurar conexão**
+
    - Copie a string de conexão do dashboard
    - Configure como variável `DATABASE` na aplicação
    - Exemplo: `postgres://user:pass@host:port/db?ssl=true`
@@ -153,6 +160,7 @@ Sua aplicação ficará disponível em: `https://minha-api.shardweb.app`
 ### Domínio personalizado
 
 1. **Configurar DNS**
+
    - Adicione um registro CNAME apontando para `contacts-api.shardweb.app`
    - Ou configure A record com o IP fornecido
 
@@ -230,26 +238,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.23'
-      
+          go-version: "1.23"
+
       - name: Cache Go modules
         uses: actions/cache@v3
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-      
+
       - name: Build
         run: go build -o bin/main ./cmd/server
-      
+
       - name: Deploy to Shard Cloud
         run: |
           # Zip project
           zip -r deploy.zip . -x "bin/*" "*.git*"
-          
+
           # Upload to Shard Cloud (configure API token)
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.SHARD_TOKEN }}" \
@@ -311,7 +319,7 @@ make migrate-status
 
 ## 🎉 Sucesso!
 
-Sua API está no ar na Shard Cloud! 
+Sua API está no ar na Shard Cloud!
 
 ### Próximos passos:
 
