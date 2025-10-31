@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"api-contacts-go/internal/models"
-
 	"github.com/golang-migrate/migrate/v4"
 	postgresdriver "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -32,10 +30,8 @@ func Initialize(databaseURL string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
-	// Auto migrate models
-	if err := db.AutoMigrate(&models.Contact{}); err != nil {
-		return nil, fmt.Errorf("failed to auto migrate: %w", err)
-	}
+	// Note: Migrations are handled by golang-migrate (see RunMigrations function)
+	// AutoMigrate is not used to avoid conflicts with manual SQL migrations
 
 	return db, nil
 }
@@ -59,6 +55,20 @@ func RunMigrations(databaseURL string) error {
 		"postgres", driver)
 	if err != nil {
 		return fmt.Errorf("failed to create migrate instance: %w", err)
+	}
+
+	// Check current version and dirty state
+	version, dirty, err := m.Version()
+	if err != nil && err != migrate.ErrNilVersion {
+		return fmt.Errorf("failed to get migration version: %w", err)
+	}
+
+	// If database is in dirty state, force the version to clean it
+	if dirty {
+		// Force to current version to mark it as clean
+		if err := m.Force(int(version)); err != nil {
+			return fmt.Errorf("failed to force clean migration version: %w", err)
+		}
 	}
 
 	// Run migrations

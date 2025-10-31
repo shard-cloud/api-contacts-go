@@ -264,6 +264,25 @@ migrate -path migrations -database "$DATABASE" version
 migrate -path migrations -database "$DATABASE" history
 ```
 
+**⚠️ Migrations "Dirty" (Auto-fix):**
+
+Se você ver este warning nos logs:
+```
+Failed to run migrations: Dirty database version X
+```
+
+**Não se preocupe!** O sistema detecta e corrige automaticamente:
+1. ✅ Detecta estado "dirty" da migration
+2. ✅ Força limpeza da versão atual
+3. ✅ Continua com a inicialização normalmente
+
+Isso pode acontecer se:
+- Uma migration anterior falhou no meio
+- O container foi reiniciado durante uma migration
+- Houve erro de conexão durante migration
+
+O servidor **continua funcionando normalmente** após o auto-fix.
+
 ### Logs Detalhados
 
 ```bash

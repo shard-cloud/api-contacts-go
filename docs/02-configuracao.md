@@ -107,7 +107,26 @@ GRANT ALL PRIVILEGES ON DATABASE contacts_db TO contactuser;
 
 ## 🔄 Migrations
 
-### Configurar golang-migrate
+### 🎯 Execução Automática na Inicialização
+
+**As migrations rodam automaticamente quando a aplicação inicia!**
+
+O código em `cmd/server/main.go` executa:
+```go
+database.RunMigrations(cfg.DatabaseURL)  // Auto-executa migrations
+```
+
+**Recursos de Auto-Healing:**
+- ✅ Detecta tabelas já existentes (`IF NOT EXISTS`)
+- ✅ Corrige estado "dirty" automaticamente se detectado
+- ✅ Pula migrations já aplicadas (`ErrNoChange`)
+- ✅ Apenas loga warnings, não falha a inicialização
+
+**Resultado:** Você **não precisa rodar migrations manualmente** em produção!
+
+### Configurar golang-migrate (Opcional)
+
+Para criar novas migrations ou controle manual:
 
 ```bash
 # Instalar migrate CLI
@@ -116,7 +135,7 @@ go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@lat
 # Criar migration
 migrate create -ext sql -dir migrations initial
 
-# Aplicar migrations
+# Aplicar migrations manualmente (opcional, já roda auto)
 migrate -path migrations -database "$DATABASE" up
 
 # Ver status

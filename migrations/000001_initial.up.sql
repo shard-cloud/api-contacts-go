@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE contacts (
+CREATE TABLE IF NOT EXISTS contacts (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -11,6 +11,6 @@ CREATE TABLE contacts (
     deleted_at TIMESTAMP WITH TIME ZONE
 );
 
-CREATE INDEX idx_contacts_email ON contacts(email);
-CREATE INDEX idx_contacts_deleted_at ON contacts(deleted_at);
+CREATE INDEX IF NOT EXISTS idx_contacts_email ON contacts(email);
+CREATE INDEX IF NOT EXISTS idx_contacts_deleted_at ON contacts(deleted_at);
 -- +goose StatementEnd

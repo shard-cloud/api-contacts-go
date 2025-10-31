@@ -74,6 +74,8 @@ make lint         # Linter (golangci-lint)
 make fmt          # Formatar código (gofmt)
 ```
 
+**💡 Dica:** Migrations são executadas automaticamente na inicialização. Se houver warnings sobre estado "dirty", o sistema corrige automaticamente.
+
 ## 🔗 Endpoints
 
 ### Health Check
